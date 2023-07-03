@@ -46,12 +46,16 @@ public class RestControllerForService {
     }
 
     @PostMapping("/produce/{user_id}")
-    public ResponseEntity<UserInfoChangeEvent> produceUserEvent(@PathVariable("user_id") String userId) throws JsonProcessingException {
+    public ResponseEntity<?> produceUserEvent(@PathVariable("user_id") String userId) throws JsonProcessingException {
 
         Payload payload = payloadService.getPayloadById(Integer.parseInt(userId));
-        UserInfoChangeEvent userInfoChangeEvent = eventProducerService.createProducerEvent(payload);
-        eventProducerService.sendEvent(userInfoChangeEvent);
-
-        return ResponseEntity.ok(userInfoChangeEvent);
+        UserInfoChangeEvent userInfoChangeEvent;
+        if (payload != null) {
+            userInfoChangeEvent = eventProducerService.createProducerEvent(payload);
+            eventProducerService.sendEvent(userInfoChangeEvent);
+            return ResponseEntity.ok(userInfoChangeEvent);
+        } else {
+            return ResponseEntity.ok("User info hasn't been changed");
+        }
     }
 }

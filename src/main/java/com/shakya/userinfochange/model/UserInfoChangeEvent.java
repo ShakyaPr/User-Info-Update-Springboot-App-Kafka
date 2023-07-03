@@ -10,6 +10,7 @@ public class UserInfoChangeEvent {
     @Autowired
     private Payload payload;
 
+    public UserInfoChangeEvent() {}
     public UserInfoChangeEvent(Meta meta, Payload payload) {
         this.meta = meta;
         this.payload = payload;
