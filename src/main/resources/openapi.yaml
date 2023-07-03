@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: User API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /users/{user_id}:
+    put:
+      summary: Update user details
+      description: Update the details of a specific user
+      parameters:
+        - name: user_id
+          in: path
+          description: The ID of the user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+      responses:
+        '200':
+          description: User details updated successfully
+        '400':
+          description: Invalid request
+    get:
+      summary: Get user details
+      description: Get details of a specific user
+      parameters:
+        - name: user_id
+          in: path
+          description: The ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User details retrieved successfully
+        '404':
+          description: User not found
+components:
+  schemas:
+    UserUpdateRequest:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            email:
+              type: string
+            first_name:
+              type: string
+            last_name:
+              type: string
+            time_zone_id:
+              type: string
