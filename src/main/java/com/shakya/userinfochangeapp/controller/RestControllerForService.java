@@ -7,13 +7,12 @@ import com.shakya.userinfochangeapp.service.EventProducerService;
 import com.shakya.userinfochangeapp.service.GitHubService;
 import com.shakya.userinfochangeapp.service.PayloadService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.shakya.userinfochangeapp.constants.UserInfoConstants;
+import org.json.*;
 
 import java.util.*;
 
@@ -56,7 +55,7 @@ public class RestControllerForService {
             eventProducerService.sendEvent(userInfoChangeEvent);
             return ResponseEntity.ok(userInfoChangeEvent);
         } else {
-            return new ResponseEntity("User information for given ID hasn't been updated", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User info for given user_id hasn't been changed");
         }
     }
 }
