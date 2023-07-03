@@ -1,5 +1,6 @@
 package com.shakya.userinfochange.service;
 
+import com.shakya.userinfochange.constants.UserInfoConstants;
 import com.shakya.userinfochange.model.Payload;
 import com.shakya.userinfochange.model.UserData;
 import com.shakya.userinfochange.repository.UserInfoRepository;
@@ -10,17 +11,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
-public class CreatePayloadService {
+public class PayloadService {
 
     @Autowired
     private UserInfoRepository userInfoRepository;
 
-    public void createAndSavePayload(Map<String, Object> userData) throws JSONException {
+    public Payload createPayload(Map<String, Object> userData) throws JSONException {
 
-        JSONObject jsonObject = (JSONObject) userData.get("basic_details");
-        UserData requestBody = (UserData) userData.get("user_data");
+        JSONObject jsonObject = (JSONObject) userData.get(UserInfoConstants.BASIC_USER_DETAILS);
+        UserData requestBody = (UserData) userData.get(UserInfoConstants.REQUEST_BODY);
 
         Payload payload = new Payload();
         payload.setId(Integer.parseInt(jsonObject.getString("id")));
@@ -29,10 +31,17 @@ public class CreatePayloadService {
         payload.setFirstName(requestBody.getData().getFirstName());
         payload.setLastName(requestBody.getData().getLastName());
         payload.setTimeZoneId(requestBody.getData().getTimeZoneId());
-        payload.setFollowers((List<String>) userData.get("followers"));
-        payload.setRepos((List<String>) userData.get("repos"));
+        payload.setFollowers((List<String>) userData.get(UserInfoConstants.FOLLOWERS));
+        payload.setRepos((List<String>) userData.get(UserInfoConstants.REPOSITORIES));
 
+        return payload;
+    }
+
+    public void savePayload(Payload payload) {
         userInfoRepository.save(payload);
+    }
 
+    public Payload getPayloadById(int id) {
+        return userInfoRepository.findById(id).orElse(null);
     }
 }

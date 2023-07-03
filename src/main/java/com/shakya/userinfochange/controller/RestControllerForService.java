@@ -1,26 +1,20 @@
 package com.shakya.userinfochange.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.shakya.userinfochange.model.Meta;
-import com.shakya.userinfochange.model.User;
-import com.shakya.userinfochange.model.UserData;
-import com.shakya.userinfochange.model.UserInfoChangeEvent;
+import com.shakya.userinfochange.model.*;
 import com.shakya.userinfochange.repository.UserInfoRepository;
+import com.shakya.userinfochange.service.EventProducerService;
 import com.shakya.userinfochange.service.GitHubService;
-import com.shakya.userinfochange.service.CreatePayloadService;
+import com.shakya.userinfochange.service.PayloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.shakya.userinfochange.constants.UserInfoConstants;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 public class RestControllerForService {
@@ -28,7 +22,10 @@ public class RestControllerForService {
     @Autowired
     private GitHubService gitHubService;
     @Autowired
-    private CreatePayloadService createPayloadService;
+    private PayloadService payloadService;
+    private UserInfoRepository userInfoRepository;
+    @Autowired
+    private EventProducerService eventProducerService;
 
     @PutMapping(value = "/users/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateUserInfo(@PathVariable("user_id") String userId, @RequestBody UserData userData) throws JSONException, JsonProcessingException {
@@ -37,19 +34,24 @@ public class RestControllerForService {
         List<String> followers = gitHubService.getFollowers(userId);
         List<String> repos = gitHubService.getRepos(userId);
 
-        Map<String, Object> userInfo = Map.of("basic_details", userInfoJsonObject,
-                "followers", followers,
-                "repos", repos,
-                "user_data", userData);
+        Map<String, Object> userInfo = Map.of(UserInfoConstants.BASIC_USER_DETAILS, userInfoJsonObject,
+                UserInfoConstants.FOLLOWERS, followers,
+                UserInfoConstants.REPOSITORIES, repos,
+                UserInfoConstants.REQUEST_BODY, userData);
 
-        createPayloadService.createAndSavePayload(userInfo);
+        Payload payload = payloadService.createPayload(userInfo);
+        payloadService.savePayload(payload);
 
         return ResponseEntity.ok("Updated successfully");
     }
 
     @PostMapping("/produce/{user_id}")
-    public ResponseEntity<String> produceUserEvent(@PathVariable("user_id") String userId) {
+    public ResponseEntity<UserInfoChangeEvent> produceUserEvent(@PathVariable("user_id") String userId) throws JsonProcessingException {
 
-        return ResponseEntity.ok("User event produced successfully!");
+        Payload payload = payloadService.getPayloadById(Integer.parseInt(userId));
+        UserInfoChangeEvent userInfoChangeEvent = eventProducerService.createProducerEvent(payload);
+        eventProducerService.sendEvent(userInfoChangeEvent);
+
+        return ResponseEntity.ok(userInfoChangeEvent);
     }
 }
