@@ -1,13 +1,17 @@
 package com.shakya.userinfochange.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Entity
 public class Payload {
-    private String id;
+    @Id
+    private int id;
     private String userName;
     private String email;
     private List<String> followers;
@@ -20,11 +24,11 @@ public class Payload {
     }
 
     @JsonProperty("id")
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
