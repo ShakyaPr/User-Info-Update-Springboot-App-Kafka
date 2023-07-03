@@ -1,4 +1,4 @@
-package com.shakya.userinfochange.model;
+package com.shakya.userinfochangeapp.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;

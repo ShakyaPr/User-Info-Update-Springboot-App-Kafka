@@ -1,18 +1,19 @@
-package com.shakya.userinfochange.controller;
+package com.shakya.userinfochangeapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.shakya.userinfochange.model.*;
-import com.shakya.userinfochange.repository.UserInfoRepository;
-import com.shakya.userinfochange.service.EventProducerService;
-import com.shakya.userinfochange.service.GitHubService;
-import com.shakya.userinfochange.service.PayloadService;
+import com.shakya.userinfochangeapp.model.*;
+import com.shakya.userinfochangeapp.repository.UserInfoRepository;
+import com.shakya.userinfochangeapp.service.EventProducerService;
+import com.shakya.userinfochangeapp.service.GitHubService;
+import com.shakya.userinfochangeapp.service.PayloadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.shakya.userinfochange.constants.UserInfoConstants;
+import com.shakya.userinfochangeapp.constants.UserInfoConstants;
 
 import java.util.*;
 
@@ -55,7 +56,7 @@ public class RestControllerForService {
             eventProducerService.sendEvent(userInfoChangeEvent);
             return ResponseEntity.ok(userInfoChangeEvent);
         } else {
-            return ResponseEntity.ok("User info hasn't been changed");
+            return new ResponseEntity("User information for given ID hasn't been updated", HttpStatus.BAD_REQUEST);
         }
     }
 }

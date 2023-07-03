@@ -1,6 +1,6 @@
-package com.shakya.userinfochange.repository;
+package com.shakya.userinfochangeapp.repository;
 
-import com.shakya.userinfochange.model.Payload;
+import com.shakya.userinfochangeapp.model.Payload;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

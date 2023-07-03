@@ -1,4 +1,4 @@
-package com.shakya.userinfochange.model;
+package com.shakya.userinfochangeapp.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,9 +1,9 @@
-package com.shakya.userinfochange.service;
+package com.shakya.userinfochangeapp.service;
 
-import com.shakya.userinfochange.constants.UserInfoConstants;
-import com.shakya.userinfochange.model.Payload;
-import com.shakya.userinfochange.model.UserData;
-import com.shakya.userinfochange.repository.UserInfoRepository;
+import com.shakya.userinfochangeapp.constants.UserInfoConstants;
+import com.shakya.userinfochangeapp.model.Payload;
+import com.shakya.userinfochangeapp.model.UserData;
+import com.shakya.userinfochangeapp.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class PayloadService {

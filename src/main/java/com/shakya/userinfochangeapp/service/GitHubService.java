@@ -1,4 +1,4 @@
-package com.shakya.userinfochange.service;
+package com.shakya.userinfochangeapp.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

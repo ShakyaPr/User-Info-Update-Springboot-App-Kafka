@@ -1,4 +1,4 @@
-package com.shakya.userinfochange.constants;
+package com.shakya.userinfochangeapp.constants;
 
 public class UserInfoConstants {
 

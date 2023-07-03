@@ -1,4 +1,4 @@
-package com.shakya.userinfochange;
+package com.shakya.userinfochangeapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
