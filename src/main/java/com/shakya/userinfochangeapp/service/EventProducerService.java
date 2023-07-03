@@ -34,6 +34,6 @@ public class EventProducerService {
     public void sendEvent(UserInfoChangeEvent userInfoChangeEvent) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(userInfoChangeEvent);
-        kafkaTemplate.send("UserInfoChanged", json);
+        kafkaTemplate.send("users", json);
     }
 }
