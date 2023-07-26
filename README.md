@@ -32,13 +32,13 @@ This Springboot application is designed to update user information and integrate
 ## Instructions for Deployment
 
 1. Clone the project from GitHub: 
-    git clone https://github.com/ShakyaPr/User-Info-Update-Springboot-App-Kafka.git
-    cd User-Info-Update-Springboot-App-Kafka/
+    `git clone https://github.com/ShakyaPr/User-Info-Update-Springboot-App-Kafka.git`
+    `cd User-Info-Update-Springboot-App-Kafka/`
 
 2. Deploy PostgreSQL Database, Kafka Server, and Kafdrop using Docker: 
-    docker run --name postgres -e POSTGRES_PASSWORD=admin12#$ -d -p 5432:5432 postgres
-    docker run --net=host -p 2181:2181 -p 9092:9092 -e ADVERTISED_HOST=127.0.0.1 -e NUM_PARTITIONS=10 --name kafka_server johnnypark/kafka-zookeeper
+    `docker run --name postgres -e POSTGRES_PASSWORD=admin12#$ -d -p 5432:5432 postgres`
+    `ocker run --net=host -p 2181:2181 -p 9092:9092 -e ADVERTISED_HOST=127.0.0.1 -e NUM_PARTITIONS=10 --name kafka_server johnnypark/kafka-zookeeper`
 
 3. Ensure that port 8000 is available on your system.
 
-4. Run the application: ./mvnw spring-boot:run
+4. Run the application: `./mvnw spring-boot:run`
